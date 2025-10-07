@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/fundo_dark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_song_title"
+        android:textColor="@color/texto_claro"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/song_name_hint"
+        android:textColor="@color/texto_claro"
+        android:textColorHint="@color/texto_claro"
+        android:backgroundTint="@color/roxo"
+        android:inputType="textPersonName"
+        android:autofillHints="name"/>
+
+    <EditText
+        android:id="@+id/etArtist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/artist_hint"
+        android:textColor="@color/texto_claro"
+        android:textColorHint="@color/texto_claro"
+        android:backgroundTint="@color/roxo"
+        android:inputType="textPersonName"
+        android:layout_marginTop="12dp"
+        android:autofillHints="name"/>
+
+    <EditText
+        android:id="@+id/etLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/link_hint"
+        android:textColor="@color/texto_claro"
+        android:textColorHint="@color/texto_claro"
+        android:backgroundTint="@color/roxo"
+        android:inputType="textUri"
+        android:layout_marginTop="12dp"
+        android:autofillHints="username"/>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:textColor="@color/texto_claro"
+        android:backgroundTint="@color/roxo"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>

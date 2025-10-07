@@ -6,18 +6,21 @@
     android:id="@+id/songListRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="SongListFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         app:title="Karaokê de Bolso"
-        app:titleTextColor="@android:color/white"
+        app:titleCentered="true"
+        app:titleTextColor="@color/texto_claro"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="?attr/colorPrimary"/>
+        android:background="@color/roxo_escuro"
+        android:elevation="4dp"/>
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
@@ -27,7 +30,11 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="12dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_searchview_modern"
+        android:elevation="2dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSongs"
@@ -37,7 +44,7 @@
         app:layout_constraintBottom_toTopOf="@+id/fabAddSong"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="8dp"
+        android:padding="12dp"
         tools:listitem="@layout/item_song" />
 
     <TextView
@@ -46,12 +53,15 @@
         android:layout_height="wrap_content"
         android:text="Nenhuma música salva\nToque + para adicionar"
         android:textAlignment="center"
+        android:textColor="@color/texto_escuro"
+        android:textSize="16sp"
+        android:background="@drawable/bg_empty_state_modern"
         app:layout_constraintTop_toBottomOf="@id/searchView"
         app:layout_constraintBottom_toTopOf="@+id/fabAddSong"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
-        android:padding="16dp"/>
+        android:padding="24dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddSong"
@@ -61,5 +71,9 @@
         app:srcCompat="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"/>
+        android:layout_margin="28dp"
+        app:backgroundTint="@color/roxo_escuro"
+        app:tint="@color/white"
+        app:shapeAppearanceOverlay="@style/Widget.Material3.FloatingActionButton"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.KaraokêDeBolso" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/roxo_escuro</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.KaraokêDeBolso" parent="Base.Theme.KaraokêDeBolso" />
+
+    <style name="Widget.Material3.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Material3.Corner.Full</item>
+        <item name="elevation">8dp</item>
+    </style>
+    <style name="ShapeAppearance.Material3.Corner.Full" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

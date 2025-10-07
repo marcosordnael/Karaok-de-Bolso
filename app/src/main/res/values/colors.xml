@@ -2,4 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="roxo">#FF7C3AED</color>
+    <color name="roxo_escuro">#FF4C1D95</color>
+    <color name="azul">#FF2563EB</color>
+    <color name="azul_escuro">#FF1E40AF</color>
+    <color name="fundo_dark">#FF18181B</color>
+    <color name="texto_claro">#FFFFFFFF</color>
+    <color name="texto_escuro">#FF18181B</color>
+
 </resources>

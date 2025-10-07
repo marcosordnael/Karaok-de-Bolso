@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Karaokê de Bolso</string>
     <string name="add_song">Adicionar música</string>
+    <string name="add_song_title">Adicionar Música</string>
+    <string name="song_name_hint">Nome da música</string>
+    <string name="artist_hint">Artista/Banda</string>
+    <string name="link_hint">Link (opcional)</string>
+    <string name="save">Salvar</string>
 </resources>
