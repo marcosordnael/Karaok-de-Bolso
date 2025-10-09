@@ -2,7 +2,17 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.KaraokêDeBolso" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/roxo_escuro</item>
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- SearchView customization -->
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="searchViewStyle">@style/Widget.AppCompat.SearchView.Custom</item>
+    </style>
+
+    <style name="Widget.AppCompat.SearchView.Custom" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@android:color/transparent</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:tint">@android:color/white</item>
     </style>
 </resources>

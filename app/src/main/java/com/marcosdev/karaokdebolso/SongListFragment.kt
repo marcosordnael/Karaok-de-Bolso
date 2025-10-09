@@ -2,30 +2,32 @@ package com.marcosdev.karaokdebolso
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import com.marcosdev.karaokdebolso.adapter.SongAdapter
 import com.marcosdev.karaokdebolso.databinding.FragmentSongListBinding
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.marcosdev.karaokdebolso.model.Song
-import com.marcosdev.karaokdebolso.AddSongDialogFragment
+import androidx.fragment.app.viewModels
+import com.marcosdev.karaokdebolso.viewmodel.SongViewModel
 
 class SongListFragment : Fragment() {
     private var _binding: FragmentSongListBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: SongViewModel by viewModels {
+        SongViewModel.Factory(requireActivity().application)
+    }
     private lateinit var adapter: SongAdapter
-    private val songs = mutableListOf<Song>()
+    private var allSongs: List<Song> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSongListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,47 +35,76 @@ class SongListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Ajusta padding para status bar e navigation bar
-        ViewCompat.setOnApplyWindowInsetsListener(binding.songListRoot) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(0, systemBars.top, 0, systemBars.bottom)
-            insets
-        }
-
         binding.recyclerSongs.layoutManager = LinearLayoutManager(requireContext())
         adapter = SongAdapter(
-            songs,
-            onItemClick = { /* TODO: ação ao clicar no item */ },
-            onLinkClick = { /* TODO: ação ao clicar no link */ }
+            emptyList(),
+            onItemClick = { song ->
+                if (!song.link.isNullOrBlank()) {
+                    val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
+                    intent.data = android.net.Uri.parse(song.link)
+                    startActivity(intent)
+                } else {
+                    /* TODO: ação ao clicar no item sem link */
+                }
+            },
+            onLinkClick = { link ->
+                if (!link.isNullOrBlank()) {
+                    val intent = android.content.Intent(android.content.Intent.ACTION_VIEW)
+                    intent.data = android.net.Uri.parse(link)
+                    startActivity(intent)
+                }
+            }
         )
         binding.recyclerSongs.adapter = adapter
 
-        binding.fabAddSong.setOnClickListener {
-            AddSongDialogFragment.newInstance { title, artist, link ->
-                val song = Song(title = title, artist = artist, link = link)
-                songs.add(song)
-                adapter.notifyItemInserted(songs.size - 1)
-                binding.emptyState.visibility = View.GONE
-            }.show(parentFragmentManager, "AddSongDialog")
+        adapter.setOnItemLongClickListener { song ->
+            val options = arrayOf("Editar", "Excluir")
+            android.app.AlertDialog.Builder(requireContext())
+                .setTitle("Opções")
+                .setItems(options) { dialog, which ->
+                    when (which) {
+                        0 -> {
+                            val bundle = Bundle()
+                            bundle.putParcelable("song", song)
+                            findNavController().navigate(R.id.action_songListFragment_to_addSongFragment, bundle)
+                        }
+                        1 -> viewModel.delete(song)
+                    }
+                }
+                .show()
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                // filtrar via ViewModel / Adapter
-                return true
-            }
-            override fun onQueryTextChange(newText: String?): Boolean {
-                // Atualizar filtragem em tempo real
-                return true
-            }
-        })
+        viewModel.allSongs.observe(viewLifecycleOwner) { songs ->
+            allSongs = songs
+            adapter.updateSongs(songs)
+            updateEmptyState(songs.isEmpty())
+        }
 
-        updateEmptyState(isEmpty = true) // TODO: mudar conforme dados
+
+        updateEmptyState(isEmpty = true)
     }
 
     private fun updateEmptyState(isEmpty: Boolean) {
         binding.emptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
         binding.recyclerSongs.visibility = if (isEmpty) View.GONE else View.VISIBLE
+    }
+
+    private fun filterSongs(query: String?) {
+        val filtered = if (query.isNullOrBlank()) {
+            allSongs
+        } else {
+            allSongs.filter {
+                it.title.contains(query, ignoreCase = true) ||
+                it.artist.contains(query, ignoreCase = true) ||
+                it.link.contains(query, ignoreCase = true)
+            }
+        }
+        adapter.updateSongs(filtered)
+        updateEmptyState(filtered.isEmpty())
+    }
+
+    fun filterSongsFromActivity(query: String?) {
+        filterSongs(query)
     }
 
     override fun onDestroyView() {

@@ -3,7 +3,6 @@ package com.marcosdev.karaokdebolso.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.marcosdev.karaokdebolso.databinding.ItemSongBinding
 import com.marcosdev.karaokdebolso.model.Song
@@ -13,6 +12,12 @@ class SongAdapter(
     private val onItemClick: (Song) -> Unit,
     private val onLinkClick: (String) -> Unit
 ) : RecyclerView.Adapter<SongAdapter.SongViewHolder>() {
+
+    private var onItemLongClick: ((Song) -> Unit)? = null
+
+    fun setOnItemLongClickListener(listener: (Song) -> Unit) {
+        onItemLongClick = listener
+    }
 
     inner class SongViewHolder(val binding: ItemSongBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -39,9 +44,13 @@ class SongAdapter(
                 }
             }
 
-            // Clique no card abre detalhes
+            // Clique no card abre detalhes (mantém para compatibilidade)
             binding.root.setOnClickListener {
                 onItemClick(song)
+            }
+            binding.root.setOnLongClickListener {
+                onItemLongClick?.invoke(song)
+                true
             }
         }
     }
@@ -59,10 +68,10 @@ class SongAdapter(
         holder.bind(songs[position])
     }
 
-    override fun getItemCount() = songs.size
+    override fun getItemCount(): Int = songs.size
 
-    fun updateData(newSongs: List<Song>) {
-        songs = newSongs
+    fun updateSongs(newSongs: List<Song>) {
+        this.songs = newSongs
         notifyDataSetChanged()
     }
 }

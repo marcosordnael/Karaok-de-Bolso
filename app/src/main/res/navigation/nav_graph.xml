@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/songListFragment">
+
+    <fragment
+        android:id="@+id/songListFragment"
+        android:name="com.marcosdev.karaokdebolso.SongListFragment"
+        android:label="Karaokê de Bolso">
+        <action
+            android:id="@+id/action_songListFragment_to_addSongFragment"
+            app:destination="@id/addSongFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addSongFragment"
+        android:name="com.marcosdev.karaokdebolso.AddSongFragment"
+        android:label="Adicionar Música" />
+
+</navigation>

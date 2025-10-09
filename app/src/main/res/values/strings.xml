@@ -6,4 +6,8 @@
     <string name="artist_hint">Artista/Banda</string>
     <string name="link_hint">Link (opcional)</string>
     <string name="save">Salvar</string>
+    <string name="editar">Editar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Excluir</string>
+    <string name="song_image">Imagem da música</string>
 </resources>

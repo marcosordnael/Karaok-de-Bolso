@@ -1,17 +1,17 @@
 package com.marcosdev.karaokdebolso
 
 import android.os.Bundle
-import android.os.Build
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.SearchView
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.marcosdev.karaokdebolso.databinding.ActivityMainBinding
-import com.marcosdev.karaokdebolso.databinding.FragmentSongListBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,13 +19,59 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ajusta padding para status bar e navigation bar
-        window.statusBarColor = ContextCompat.getColor(this, R.color.roxo_escuro)
+        setSupportActionBar(binding.toolbar)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, SongListFragment())
-                .commit()
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        setupActionBarWithNavController(navController)
+
+        // Clique do FloatingActionButton agora está na MainActivity
+        binding.fabAddSong.setOnClickListener {
+            // Garante que está no SongListFragment antes de navegar
+            val currentFragment = navHostFragment.childFragmentManager.fragments.firstOrNull()
+            if (currentFragment is com.marcosdev.karaokdebolso.SongListFragment) {
+                navController.navigate(R.id.action_songListFragment_to_addSongFragment)
+            }
+        }
+
+        // Deixa a navigation bar preta
+        window.navigationBarColor = resources.getColor(R.color.black, theme)
+        // Deixa a status bar fixa com a cor do header
+        window.statusBarColor = resources.getColor(R.color.roxo_escuro, theme)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as? SearchView
+        searchView?.queryHint = "Buscar música ou artista"
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                sendQueryToFragment(query)
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                sendQueryToFragment(newText)
+                return true
+            }
+        })
+        return true
+    }
+
+    private fun sendQueryToFragment(query: String?) {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment = navHostFragment?.childFragmentManager?.fragments?.firstOrNull()
+        if (fragment is com.marcosdev.karaokdebolso.SongListFragment) {
+            fragment.filterSongsFromActivity(query)
         }
     }
 }

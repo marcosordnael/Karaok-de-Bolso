@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fundo_dark"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/song_name_hint"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeColor="@color/text_input_box_stroke"
+            app:hintTextColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto_claro"
+                android:inputType="textCapWords|textPersonName"
+                android:autofillHints="name"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/artist_hint"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeColor="@color/text_input_box_stroke"
+            app:hintTextColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto_claro"
+                android:inputType="textCapWords|textPersonName"
+                android:autofillHints="name"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/link_hint"
+            android:layout_marginTop="16dp"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeColor="@color/text_input_box_stroke"
+            app:hintTextColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/texto_claro"
+                android:inputType="textUri"
+                android:autofillHints="username"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/save"
+            android:textColor="@color/texto_claro"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/roxo"
+            app:cornerRadius="12dp"
+            android:layout_marginTop="32dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
