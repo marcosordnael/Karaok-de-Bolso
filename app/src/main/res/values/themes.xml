@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.KaraokêDeBolso" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/roxo_escuro</item>
+        <item name="android:navigationBarColor">@color/black</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>

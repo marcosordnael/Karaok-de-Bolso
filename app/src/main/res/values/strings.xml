@@ -10,4 +10,5 @@
     <string name="cancel">Cancelar</string>
     <string name="delete">Excluir</string>
     <string name="song_image">Imagem da música</string>
+    <string name="search_hint">Buscar músicas...</string>
 </resources>

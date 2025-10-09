@@ -2,10 +2,12 @@ package com.marcosdev.karaokdebolso
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.findNavController
 import com.marcosdev.karaokdebolso.adapter.SongAdapter
@@ -13,6 +15,10 @@ import com.marcosdev.karaokdebolso.databinding.FragmentSongListBinding
 import com.marcosdev.karaokdebolso.model.Song
 import androidx.fragment.app.viewModels
 import com.marcosdev.karaokdebolso.viewmodel.SongViewModel
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.MenuProvider
+import androidx.appcompat.widget.SearchView
 
 class SongListFragment : Fragment() {
     private var _binding: FragmentSongListBinding? = null
@@ -80,6 +86,39 @@ class SongListFragment : Fragment() {
             updateEmptyState(songs.isEmpty())
         }
 
+        ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                v.paddingLeft,
+                v.paddingTop,
+                v.paddingRight,
+                systemBarsInsets.bottom
+            )
+            insets
+        }
+
+
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_main, menu)
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem?.actionView as? SearchView
+                searchView?.queryHint = getString(R.string.search_hint)
+                searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        filterSongsFromActivity(query)
+                        return true
+                    }
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        filterSongsFromActivity(newText)
+                        return true
+                    }
+                })
+            }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return false
+            }
+        }, viewLifecycleOwner)
 
         updateEmptyState(isEmpty = true)
     }
